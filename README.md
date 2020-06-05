@@ -98,7 +98,7 @@ return sb.toString();
 
 각 테이블에 담긴 데이터는 아래와 같다.
 
-<img src="./img/img_001.png" width="350" height="300"></br>
+<img src="./img/img_001.png" width="380" height="310"></br>
 
 ### Equi join
 
@@ -129,7 +129,7 @@ LEFT OUTER JOIN DEPT b
 ORDER BY a.DEPTNO ASC;
 ```
 
-<img src="./img/img_003.png" width="150" height="70"></br>
+<img src="./img/img_003.png" width="170" height="75"></br>
 
 ```SQL
 -- DEPTNO 40이 0이어야 하는데 1 출력
@@ -162,7 +162,19 @@ ORDER BY b.DEPTNO ASC;
 ##### [목차로 이동](#목차)
 
 ## 알고리즘
-
+1. [1, 3, 4, 6] -> 2
+2. task package  
+	```txt
+	process: [20, 50, 30]
+	speed: [10, 20, 40]
+	
+	-> [8, 3, 2]
+	-> [3]
+	```
+3. 1000100001 -> 4(MAX)
+4. .
+- - -
+1.
 
 ##### [목차로 이동](#목차)
 
