@@ -7,11 +7,11 @@
 2. [자바스크립트](#자바스크립트)
 	1. [동작원리](#동작원리)
 	2. [setTimeout](#setTimeout)
-	3. [기타](#기타)
+	3. [--](#--)
 3. [스프링](#스프링)
 4. [SQL](#SQL)
 	1. [Outer join](#Outer-join)
-	2. [기타](#기타)
+	2. [--](#--)
 5. [알고리즘](#알고리즘)
 6. [기타](#기타)
 
@@ -124,9 +124,11 @@ f();	// 1, 2, 3
 
 ##### [목차로 이동](#목차)
 
-### 기타
+### --
 * https://poiemaweb.com/es6-arrow-function
 * https://ifuwanna.tistory.com/13
+* 참고문서
+	* [모던 JavaScript 튜토리얼](https://ko.javascript.info/)
 
 ##### [목차로 이동](#목차)
 
@@ -238,7 +240,7 @@ ORDER BY b.DEPTNO ASC;
 
 ##### [목차로 이동](#목차)
 
-### 기타
+### --
 1. FK는 NULLABLE 가능
 2. VIEW
 3. 실행순서
@@ -264,6 +266,7 @@ ORDER BY b.DEPTNO ASC;
 ##### [목차로 이동](#목차)
 
 ## 기타
-
+* [CI/CD란?](https://itholic.github.io/qa-cicd/)
+* .
 
 ##### [목차로 이동](#목차)
