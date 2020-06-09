@@ -7,7 +7,9 @@
 2. [자바스크립트](#자바스크립트)
 	1. [동작원리](#동작원리)
 	2. [setTimeout](#setTimeout)
-	3. [--](#--)
+	3. [변수 할당](#변수-할당)
+	4. [this](#this)
+	5. [--](#--)
 3. [스프링](#스프링)
 4. [SQL](#SQL)
 	1. [Outer join](#Outer-join)
@@ -121,6 +123,128 @@ f();	// 1, 2, 3
 2. Scope
 	* [Scope](https://poiemaweb.com/js-scope)
 	* [스코프와 클로저](https://medium.com/@khwsc1/%EB%B2%88%EC%97%AD-%EC%9E%90%EB%B0%94%EC%8A%A4%ED%81%AC%EB%A6%BD%ED%8A%B8-%EC%8A%A4%EC%BD%94%ED%94%84%EC%99%80-%ED%81%B4%EB%A1%9C%EC%A0%80-javascript-scope-and-closures-8d402c976d19)
+
+##### [목차로 이동](#목차)
+
+### 변수 할당
+다음 글([메서드와 `this`](https://ko.javascript.info/object-methods))을 보고 정리한다. 먼저 `user` 객체의 메서드를 정의할 수 있는 두 가지 방법이 있다.
+
+1. 방법 1  
+	```javascript
+	let user = {
+		name: "John",
+		age: 30,
+
+		sayHi() {
+			// 'this'는 '현재 객체'를 나타냅니다.
+			alert(this.name);
+		}
+	};
+	```
+2. 방법 2  
+	```javascript
+	let user = {
+		name: "John",
+		age: 30,
+
+		sayHi() {
+			alert(user.name); // 'this' 대신 'user'를 이용함
+		}
+	};
+	```
+
+즉 이처럼 보통 메서드의 경우 객체에 저장된 정보를 활용하는 경우가 많은데 두 번째 방법처럼 `this`를 사용하지 않고 외부 변수를 참조해 객체에 접근하는 것도 가능[1]하다. 하지만 외부 변수를 참조해 객체에 접근하는 경우 문제가 있다.
+
+```javascript
+let user = {
+	name: "John",
+	age: 30,
+
+	sayHi() {
+		alert( user.name );	// Error: Cannot read property 'name' of null
+	}
+};
+
+
+let admin = user;
+user = null;	// user를 null로 덮어씁니다[2].
+
+admin.sayHi();	// sayHi()가 엉뚱한 객체를 참고하면서 에러가 발생했습니다.
+```
+
+실행결과를 살펴보자.
+
+<img src="./img/img_005.png" width="500" height="350"></br>
+
+`admin` 객체의 `sayHi` 메서드가 `user.name`을 바라보는 것을 확인할 수 있다. 만약 `this`를 이용해 구현했다면 이러한 문제는 발생하지 않았을 것이다.
+
+```javascript
+let user = {
+	name: "John",
+	age: 30,
+
+	sayHi() {
+		alert( this.name );
+	}
+};
+
+
+let admin = user;
+user = null;
+
+admin.sayHi();
+```
+
+- - -
+1. 호이스팅
+	* 메서드 정의에서 외부의 변수를 사용할 수 있는 이유는 변수 호이스팅으로 인해 `user`가 이미 선언되었기 때문이라고 이해
+	* let인데 맞나?
+	* 참고
+		* [`let`, `const`와 블록 레벨 스코프](https://poiemaweb.com/es6-block-scope)
+2. `admin` 변수는 왜 null이 아닌가?
+	* 자바에서 이미 많이 고민했음에도 불구하고 혼동했던 부분이 `admin` 변수가 primitive가 아닌 reference 타입인데 왜 `user`를 따라 변하지 않지? 자바스크립트라 자바와 다른가? 하는 부분이었다.
+	* 결론을 말하자면 아니다. 자바로 해봤으나 결과는 동일하고, 변화를 같이 가져가기 위해서는 주소값을 바꾸면 안 되고 내부 속성을 바꿔주어야 한다.
+3. .
+
+##### [목차로 이동](#목차)
+
+### this
+다른 언어를 사용하다 자바스크립트로 넘어온 개발자는 `this`를 혼동하기 쉽다. 예를 들면 bound this, 즉 `this`가 항상 메서드가 정의된 객체를 참조할 것이라고 착각한다. 하지만 자바스크립트의 `this`는 다른 프로그래밍 언어의 `this`와 동작 방식이 다르다.
+
+자바스크립트에서 `this`는 런타임에 결정된다. 따라서 함수(메서드)를 하나만 만들어 여러 객체에서 재사용할 수 있다는 것은 장점이다. 메서드가 어디서 정의되었는지에 상관없이 `this`는 점 앞의 객체가 무엇인가에 따라 자유롭게 결정되기 때문이다. 물론 이런 유연함이 실수로 이어질 수 있다는 것이 단점이다. 
+
+```javascript
+let user = { name: "John" };
+let admin = { name: "Admin" };
+
+function sayHi() {
+	alert( this.name );
+}
+
+// 별개의 객체에서 동일한 함수를 사용함
+user.f = sayHi;
+admin.f = sayHi;
+
+// 'this'는 '점(.) 앞의' 객체를 참조하기 때문에
+// this 값이 달라짐
+user.f(); // John  (this == user)
+admin.f(); // Admin  (this == admin)
+
+admin['f'](); // Admin (점과 대괄호는 동일하게 동작함)
+```
+
+단 예외가 있다. 화살표 함수의 경우 일반 함수와는 달리 고유한 `this`를 가지지 않는다. 화살표 함수에서 `this`를 참조하면, 화살표 함수가 아닌 평범한 외부 함수에서 `this` 값을 가져온다.
+
+```javascript
+```
+
+. 한편 핸들러 내부의 `this` 값 또한 다음과 같이 다를 수 있다.
+
+- - -
+* 참고
+	* [메서드와 `this`](https://ko.javascript.info/object-methods)
+	* [화살표 함수 다시 살펴보기](https://ko.javascript.info/arrow-functions)
+	* [`EventTarget.addEventListener()`](https://developer.mozilla.org/ko/docs/Web/API/EventTarget/addEventListener)
 
 ##### [목차로 이동](#목차)
 
