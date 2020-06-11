@@ -9,7 +9,9 @@
 	2. [setTimeout](#setTimeout)
 	3. [변수 할당](#변수-할당)
 	4. [this](#this)
-	5. [--](#--)
+	5. [관례](#관례)
+		1. [전역 선언 방지](#전역-선언-방지)
+	6. [--](#--)
 3. [스프링](#스프링)
 4. [SQL](#SQL)
 	1. [Outer join](#Outer-join)
@@ -87,23 +89,23 @@ console.log("second");
 function f() {
 	for(var i = 1; i <=3; i++) {
 		setTimeout(function() {
-			alert(i)
-		}, 1000);
+			console.log(i);
+		}, 1000 * i);
 	}
 }
-f();	// 4, 4, 4
+f();	// 1초의 간격을 두고 4, 4, 4
 ```
 
-한편 다음의 실행결과는 다르다.
+~~한편 다음의 실행결과는 다르다~~(잘못된 코드).
 
 ```javascript
 function f() {
 	for(var i = 1; i <=3; i++) {
-		setTimeout(alert(i)
-		, 1000);
+		setTimeout(console.log(i)
+		, 1000 * i);
 	}
 }
-f();	// 1, 2, 3
+f();	// 간격 없이 1, 2, 3
 ```
 
 먼저 첫 번째 실행 결과에 대해 이해하기 위해 세 가지를 알아야 한다.
@@ -115,7 +117,53 @@ f();	// 1, 2, 3
 3. 자바스크립트의 변수 스코프는 함수 블록 단위이다(ECMAScript5 이하)
 	* 따라서 익명 함수 내부 선언 변수가 없으므로 이후에 f 함수에서 찾게 되는데 i는 4이다
 
-반면 두 번째 실행 결과는 `setTimeout`의 인자로 함수 실행문이 전달되었으므로 1초 뒤가 아닌 즉시 실행된다고 이해했다.
+반면 두 번째 실행 결과는 `setTimeout`의 인자로 함수 실행문이 전달되었으므로 1초 뒤가 아닌 즉시 실행된다고 이해했다. 한편 이와 같은 var 키워드의 비동기 함수 문제는 아래와 같이 해결할 수 있다.
+
+* 방법 1: 함수로 감싸기  
+	```javascript
+	function f() {
+		for(var i = 0; i < 3; i++) {
+			((i) => {
+				setTimeout(() => {
+					console.log(i);
+				}, 1000 * i);
+			})(i);
+		}
+	}
+	f();
+	```
+* 방법 2: 클로저 사용  
+	```javascript
+	function f() {
+		for(var i = 0; i < 3; i++) {
+			(function(closed_i) {
+				setTimeout(() => {
+					console.log(closed_i);
+				}, 1000 * closed_i);
+			})(i);
+		}
+	}
+	f();
+	```
+* 방법 3: let 키워드 사용  
+	```javascript
+	function f() {
+		for(let i = 0; i < 3; i++) {
+			setTimeout(() => {
+				console.log(i);
+			}, 1000 * i);
+		}
+	}
+	f();
+	```
+* 방법 4: `forEach()` 사용  
+	```javascript
+	[0, 1, 2].forEach(function(i) {	// 함수 내부에서 클로저 생성
+		setTimeout(function() {
+			console.log(i);
+		}, 1000 * i);
+	});
+	```
 
 - - -
 1. `setTimeout`
@@ -123,6 +171,9 @@ f();	// 1, 2, 3
 2. Scope
 	* [Scope](https://poiemaweb.com/js-scope)
 	* [스코프와 클로저](https://medium.com/@khwsc1/%EB%B2%88%EC%97%AD-%EC%9E%90%EB%B0%94%EC%8A%A4%ED%81%AC%EB%A6%BD%ED%8A%B8-%EC%8A%A4%EC%BD%94%ED%94%84%EC%99%80-%ED%81%B4%EB%A1%9C%EC%A0%80-javascript-scope-and-closures-8d402c976d19)
+3. 참고
+	* [Javascript - 나를 위한 클로저 예제 분석](https://pewww.tistory.com/21)
+	* [비동기 프로그래밍](https://helloworldjavascript.net/pages/285-async.html)
 
 ##### [목차로 이동](#목차)
 
@@ -245,6 +296,39 @@ admin['f'](); // Admin (점과 대괄호는 동일하게 동작함)
 	* [메서드와 `this`](https://ko.javascript.info/object-methods)
 	* [화살표 함수 다시 살펴보기](https://ko.javascript.info/arrow-functions)
 	* [`EventTarget.addEventListener()`](https://developer.mozilla.org/ko/docs/Web/API/EventTarget/addEventListener)
+
+##### [목차로 이동](#목차)
+
+### 관례
+#### 전역 선언 방지
+스크립트에 전역[1] 변수와 전역 함수가 많아질수록 이름이 충돌할 확률이 높아지므로 모든 변수는 지역 변수로 선언해야 코드를 유지보수하기에 좋다. 따라서 특별한 경우가 아니라면 전역 선언은 하지 말아야 한다. 전역의 문제점은 아래와 같이 정리할 수 있다.
+
+1. 이름 충돌 문제  
+	```javascript
+	function sayColor() {
+		alert(color);
+	}
+	```
+	* 전역 변수 color가 다른 파일에 선언되어 있다면 디버깅 힘듦
+2. 변경에 취약한 문제  
+	```javascript
+	function sayColor(color) {
+		alert(color);
+	}
+	```
+	* 전역 환경이 조금이라도 변하면 에러 발생 위험이 있기 때문에 인자를 받게끔 리팩토링
+	* 함수는 더이상 전역 변수에 의존하지 않기에 전역 환경이 바뀌어도 영향받지 않음  
+	(함수를 정의할 때 가능한 지역 변수를 사용하고, 함수 외부에서 선언된 데이터는 인자로 받아야 함)
+3. 테스트하기 어려워지는 문제
+
+그렇다면 전역 변수 없이 어떻게 자바스크립트로 개발할 수 있을까? 보통은 
+
+- - -
+1. 자바스크립트 실행의 독특한 면 중 하나다
+	* 자바스크립트가 처음 실행될 때부터 다양한 전역 변수와 전역 함수가 선언된다
+	* 선언된 전역은 필요할 때 마음대로 사용할 수 있다
+	* 이 전역은 전역 객체(스크립트의 가장 바깥쪽)에 선언되는데 브라우저에서는 `window` 객체가 이 역할을 맡고 있어 변수와 함수를 전역으로 선언하면 `window` 객체의 프로퍼티가 된다
+2. .
 
 ##### [목차로 이동](#목차)
 
