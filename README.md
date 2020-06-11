@@ -11,6 +11,7 @@
 	4. [this](#this)
 	5. [관례](#관례)
 		1. [전역 선언 방지](#전역-선언-방지)
+		2. [이벤트 처리](#이벤트-처리)
 	6. [--](#--)
 3. [스프링](#스프링)
 4. [SQL](#SQL)
@@ -321,14 +322,123 @@ admin['f'](); // Admin (점과 대괄호는 동일하게 동작함)
 	(함수를 정의할 때 가능한 지역 변수를 사용하고, 함수 외부에서 선언된 데이터는 인자로 받아야 함)
 3. 테스트하기 어려워지는 문제
 
-그렇다면 전역 변수 없이 어떻게 자바스크립트로 개발할 수 있을까? 보통은 
+그렇다면 전역 변수 없이 어떻게 자바스크립트로 개발할 수 있을까? 보통 팀으로 개발하면 여러 개의 자바스크립트 파일에 코드를 작성하기에 나누어진 코드 간 통신을 위해서라도 모든 코드가 공통으로 바라봐야 할 부분 즉, 전역 변수가 필요한데 말이다. 두 가지 방법이 있다.
+
+* One-Global 접근법
+* Zero-Global 접근법
+
+먼저 One-Global 접근법은 전역 객체를 딱 하나 선언함으로써 전역 변수를 최소한으로 사용하는 방법이다. 이는 우리에게 잘 알려진 자바스크립트 라이브러리에서 모두 사용하는 방법[2]이다. One-Global 접근법에서는 네이티브 API가 사용하지 않을만한 이름으로 전역 객체를 만들고 그 전역 객체 안에 필요한 모든 로직을 추가한다. 즉, 여러 개의 전역 객체를 만들지 않고 전역으로 선언하려 했던 객체를 전역 객체의 프로퍼티에 추가한다.
+
+```javascript
+// p111
+```
+
+위 코드에서처럼 전역 객체가 하나만 존재하므로 다른 정보들은 전역 객체에 프로퍼티를 추가해서 개발할 수 있고 이를 통해 전역 공간이 오염되는 것을 방지할 수 있다. 한편 Zero-Global는 전역 변수를 전혀 사용하지 않고 자바스크립트를 페이지에 넣는 방법이다.
+
+p118
 
 - - -
 1. 자바스크립트 실행의 독특한 면 중 하나다
 	* 자바스크립트가 처음 실행될 때부터 다양한 전역 변수와 전역 함수가 선언된다
 	* 선언된 전역은 필요할 때 마음대로 사용할 수 있다
 	* 이 전역은 전역 객체(스크립트의 가장 바깥쪽)에 선언되는데 브라우저에서는 `window` 객체가 이 역할을 맡고 있어 변수와 함수를 전역으로 선언하면 `window` 객체의 프로퍼티가 된다
-2. .
+2. 예  
+	```txt
+	- YUI는 YUI라는 전역 객체를 사용한다.
+	- jQuery는 두 개의 전역 객체를 사용하는데 $와 jQuery다.
+	  "jQuery"라는 전역 객체는 다른 라이브러리에서 $를 먼저 사용했을 때만 추가된다.
+	```
+3. prototype
+4. .
+
+##### [목차로 이동](#목차)
+
+#### 이벤트 처리
+자바스크립트 애플리케이션에서 이벤트 처리는 중요하다. 유지보수를 위해 크게 두 가지 원칙을 세울 수 있다.
+
+1. 규칙 1. 애플리케이션 로직을 분리한다
+2. 규칙 2. 이벤트 객체를 바로 전달하지 않는다
+
+예를 통해 살펴보자.
+
+```javascript
+function handleClick(event) {	// [1]
+	var popup = document.getElementById("popup");
+	popup.style.left = event.clientX + "px";
+	popup.style.top = event.clientY + "px";
+	popup.className = "reveal";
+}
+
+addListener(element, "click", handleClick);
+```
+
+위 코드의 문제는 이벤트 핸들러(`handleClick`)가 애플리케이션 로직을 포함한다는 데 있다. 다시 말해 이벤트 핸들러는 애플리케이션 자체 기능이 아닌 사용자의 액션을 다루어야 한다. 물론 이 코드가 사용자가 특정 요소를 클릭할 때 수행되지만 다른 곳, 예를 들면 클릭할 때뿐만 아니라 특정 요소 위에서 커서가 움직이거나 키보드의 특정 키를 눌렀을 때[2]도 팝업창을 나타나게 해야 할 수 있으므로 이벤트 처리 코드와 애플리케이션 로직은 확실히 분리해야 한다. 아래 코드를 보자.
+
+```javascript
+var MyApplication = {
+	handleClick: function(event) {
+		this.showPopup(event);	// [3]
+	},
+	showPopup: function(event) {
+		var popup = document.getElementById("popup");
+		popup.style.left = event.clientX + "px";
+		popup.style.top = event.clientY + "px";
+		popup.className = "reveal";
+	}
+};
+
+addListener(element, "click", function(event) {
+	MyApplication.handleClick(event);
+});
+```
+
+이벤트 핸들러에 있던 애플리케이션 로직을 `MyApplication.showPopup()` 메서드로 옮겼고 `MyApplication.handleClick()` 메서드는 다른 로직 없이 `MyApplication.showPopup()` 메서드만을 호출한다. 즉 이벤트 핸들러에서 애플리케이션 로직이 분리됨에 따라 다른 이벤트에서 팝업창을 띄우는 로직이 필요하면 `MyApplication.showPopup()`을 호출하게 하면 된다.
+
+또한 이벤트 핸들러에서 애플리케이션 로직을 분리시켜 놓을 때 테스트가 수월해진다. 만약 애플리케이션 로직이 이벤트 핸들러 안에 있으면 이벤트를 발생시켜야만 테스트를 진행할 수 있지만, 분리해놓는다면 간단하게 함수를 호출하는 것만으로도 해당 기능을 테스트할 수 있다. 하지만 아직 수정할 부분이 있다. 현재 애플리케이션 로직은 분리했지만 event 객체를 아무런 처리 없이 바로 넘기고 있다. 하지만 이벤트 객체에 있는 수많은 이벤트 정보 중 이 코드에서는 그 중 단 두 개(`clientX`, `clientY`)만 사용하고 있다는 점을 기억하면 애플리케이션 로직(`showPopup`)은 `event` 객체에 의존해서는 안 된다[4]. 아래 코드를 보자.
+
+```javascript
+var MyApplication = {
+	handleClick: function(event) {
+		this.showPopup(event.clientX, event.clientY);
+	},
+	showPopup: function(x, y) {
+		var popup = document.getElementById("popup");
+		popup.style.left = x + "px";
+		popup.style.top = y + "px";
+		popup.className = "reveal";
+	}
+};
+
+addListener(element, "click", function(event) {
+	MyApplication.handleClick(event);	// 여기서는 이렇게 넘겨도 된다
+});
+```
+
+이와 같이 이벤트 객체를 애플리케이션 로직에 바로 전달하면 않도록 코드를 수정했다. 이유는 이벤트 객체를 바로 넘기면 필요한 데이터가 무엇인지 불명확해지는데 이렇게 불명확한 부분이 있으면 버그로 이어지기 때문이다. 따라서 가장 좋은 방법은 `event` 객체를 이벤트 핸들러(`handleClick`)에서만 사용하고 애플리케이션 로직에는 필요한 데이터만 넘기는 것이다. 이렇게 되면 `MyApplication.showPopup()` 메서드에서 필요한 값이 무엇인지 명확해지고, 테스트 코드를 작성하거나 다른 메서드에서 호출하기도 편해진다.
+
+- - -
+1. 이벤트 객체
+	* 이벤트 핸들러에 전달되는 이벤트 객체에는 **이벤트 타입에 따른** 부가 데이터 및 이벤트와 관련한 모든 정보가 있다
+	* 하지만 보통 이벤트 객체가 제공하는 많은 정보 중 극히 일부분만 사용한다
+	* 참고
+		* [이벤트 분류](https://developer.mozilla.org/ko/docs/Web/Events)
+			* 이벤트에 따라 속성, 즉 이벤트 객체가 달라짐(ex. [`click`](https://developer.mozilla.org/ko/docs/Web/API/Element/click_event))  
+			```txt
+			Mouse events expose additional location information on the event object, 
+			keyboard events expose information about keys that have been pressed, 
+			and touch events expose information about the location and duration of touches.
+			```
+		* 이벤트 할당
+			* [`EventTarget.addEventListener()`](https://developer.mozilla.org/ko/docs/Web/API/EventTarget/addEventListener)
+			* https://ko.javascript.info/introduction-browser-events
+		* 예시: [키코드 확인하기](http://keycode.info/)
+2. 확인: [소스코드](https://github.com/study-for-a-transfer/interview_history/blob/master/src/test01.html)
+	* 책의 전체 코드가 없는 관계로 임의로 수정해서 확인
+3. .
+4. 애플리케이션 로직이 event 객체에 의존해서는 안 되는 이유는 크게 아래 두 가지다
+	1. 메서드의 인터페이스만 봐서는 어떤 데이터가 필요한지 알기 어렵다. 좋은 API는 자신이 어떤 데이터가 필요한지 명확하게 나타낼 수 있어야 한다. `event` 객체를 넘기는 방법으로는 이 메서드에서 필요한 데이터가 무엇인지 알 수 없다.
+	2. 같은 맥락으로, 메서드를 테스트할 때 `event` 객체를 새로 만들어야 한다. 테스트를 정확하게 하기 위해서는 메서드에서 필요한 데이터가 무엇인지 확실하게 알아야 한다.
+5. .
 
 ##### [목차로 이동](#목차)
 
