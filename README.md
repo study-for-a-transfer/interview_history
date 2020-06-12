@@ -263,7 +263,7 @@ admin.sayHi();
 ### this
 다른 언어를 사용하다 자바스크립트로 넘어온 개발자는 `this`를 혼동하기 쉽다. 예를 들면 bound this, 즉 `this`가 항상 메서드가 정의된 객체를 참조할 것이라고 착각한다. 하지만 자바스크립트의 `this`는 다른 프로그래밍 언어의 `this`와 동작 방식이 다르다.
 
-자바스크립트에서 `this`는 런타임에 결정된다. 따라서 함수(메서드)를 하나만 만들어 여러 객체에서 재사용할 수 있다는 것은 장점이다. 메서드가 어디서 정의되었는지에 상관없이 `this`는 점 앞의 객체가 무엇인가에 따라 자유롭게 결정되기 때문이다. 물론 이런 유연함이 실수로 이어질 수 있다는 것이 단점이다. 
+자바스크립트에서 `this`는 런타임에 결정[1]된다. 따라서 함수(메서드)를 하나만 만들어 여러 객체에서 재사용할 수 있다는 것은 장점이다. 메서드가 어디서 정의되었는지에 상관없이 `this`는 점 앞의 객체가 무엇인가에 따라 자유롭게 결정되기 때문이다. 물론 이런 유연함이 실수로 이어질 수 있다는 것이 단점이다. 
 
 ```javascript
 let user = { name: "John" };
@@ -285,18 +285,110 @@ admin.f(); // Admin  (this == admin)
 admin['f'](); // Admin (점과 대괄호는 동일하게 동작함)
 ```
 
-단 예외가 있다. 화살표 함수의 경우 일반 함수와는 달리 고유한 `this`를 가지지 않는다. 화살표 함수에서 `this`를 참조하면, 화살표 함수가 아닌 평범한 외부 함수에서 `this` 값을 가져온다.
+물론 객체가 없이도 함수를 호출할 수 있다.
 
 ```javascript
+function sayHi() {
+	"use strict"	// 엄격 모드
+	alert(this);
+}
+
+sayHi(); // undefined
 ```
 
-. 한편 핸들러 내부의 `this` 값 또한 다음과 같이 다를 수 있다.
+이처럼 만약 엄격 모드에서 실행한다면 `this`엔 `undefined`가 할당된다. 따라서 `this.name`으로 접근하려고 하면 에러가 발생한다. 하지만 만약 엄격 모드가 아니라면 `this`는 전역 객체, 다시 말해 브라우저 환경에서는 `window` 객체를 참조한다. 하지만 이러한 코드는 대개 실수로 작성된 경우가 많기에 함수 본문에 `this`가 사용되었다면, 객체 컨텍스트 내에서 함수를 호출할 것이라 예상하는 것이 보통이다.
+
+한편 화살표 함수[2]의 경우 일반 함수와는 달리 고유한 `this`를 가지지 않는다. 화살표 함수에서 `this`를 참조하면, 화살표 함수가 아닌 평범한 외부 함수에서 `this` 값을 가져온다. 아래 예를 보자.
+
+```javascript
+let user = {
+	firstName: "보라",
+	sayHi() {
+		let arrow = () => alert(this.firstName);
+		arrow();
+	}
+};
+
+user.sayHi(); // 보라
+```
+
+위에서 함수 `arrow()`의 `this`는 외부 함수 `user.sayHi()`의 `this`가 된다. 즉 별개의 `this`가 만들어지는 건 원하지 않고, 외부 컨텍스트에 있는 `this`를 이용하고 싶은 경우 화살표 함수가 유용하다.
 
 - - -
-* 참고
+1. 아래 코드에서 에러가 발생하는 이유는 자바스크립트의 `this`가 런타임에 결정되기 때문이다  
+	```javascript
+	// 틀린 결과 출력
+	function makeUser() {
+		return {
+			name: "John",
+			ref: this
+		};
+	};
+
+	let user = makeUser();
+
+	alert( user.ref.name ); // Error: Cannot read property 'name' of undefined
+	
+	// 올바른 결과 출력
+	function makeUser() {
+		return {
+			name: "John",
+			ref() {
+				return this;
+			}
+		};
+	};
+
+	let user = makeUser();
+
+	alert( user.ref().name ); // John
+	```
+	* `this` 값은 호출 시점에 결정되는데, 첫 번째 코드의 `makeUser()`는 메서드로써 호출된 것이 아니라 함수로써 호출되었기 때문에 `this`는 `undefined`가 된다. 즉 `makeUser()` 내 `this`는 `undefined`가 된다. 이때 코드 블록(`{}`)과 객체 리터럴(`ref`)은 여기에 영향을 주지 않는다.
+	* 두 번째 코드의 경우 `user.ref()`가 함수가 아닌 메서드가 되고 `this`는 `.` 앞의 객체가 되므로 에러가 발생하지 않는다
+2. 화살표 함수는 단순히 **짧게** 쓰기 위한 용도로 사용되지 않는다
+	* 자바스크립트에서는 함수를 생성하고 그 함수를 어딘가에 전달하는 것이 자연스럽다  
+		```javascript
+		arr.forEach(func)	// func는 forEach가 호출될 때 배열 arr의 요소 전체를 대상으로 실행
+		setTimeout(func)	// func는 내장 스케줄러에 의해 실행
+		```
+	* 그런데 어딘가에 함수를 전달하게 되면 함수의 컨텍스트를 잃을 수 있기에 이때 화살표 함수를 사용하면 현재 컨텍스트를 잃지 않아 유용하다
+	* 예  
+		```javascript
+		// 올바른 결과 출력
+		let group = {
+			title: "1모둠",
+			students: ["보라", "호진", "지민"],
+
+			showList() {
+				this.students.forEach(
+					student => alert(this.title + ': ' + student)
+				);
+			}
+		};
+
+		group.showList();
+		
+		// 틀린 결과 출력
+		let group = {
+			title: "1모둠",
+			students: ["보라", "호진", "지민"],
+
+			showList() {
+				this.students.forEach(function(student) {
+					// TypeError: Cannot read property 'title' of undefined[3]
+					alert(this.title + ': ' + student)
+				});
+			}
+		};
+
+		group.showList();
+		```
+3. .
+4. 참고
 	* [메서드와 `this`](https://ko.javascript.info/object-methods)
 	* [화살표 함수 다시 살펴보기](https://ko.javascript.info/arrow-functions)
 	* [`EventTarget.addEventListener()`](https://developer.mozilla.org/ko/docs/Web/API/EventTarget/addEventListener)
+		* 핸들러 내부의 `this` 값 추후 정리!
 
 ##### [목차로 이동](#목차)
 
