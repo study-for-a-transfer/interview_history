@@ -21,7 +21,7 @@
 6. [기타](#기타)
 
 ## 자바
-
+https://velog.io/@jakeseo_me/Algorithm-Study-With-Java-3-JAVA-SORT
 
 ##### [목차로 이동](#목차)
 
@@ -166,13 +166,25 @@ f();	// 간격 없이 1, 2, 3
 	});
 	```
 
+추가로 위 코드에 대한. 추후. 반복할 때마다 Function Execution Context[3]가 생기나?
+
 - - -
 1. `setTimeout`
 	* [스케줄링: `setTimeout`과 `setInterval`](https://ko.javascript.info/settimeout-setinterval)
 2. Scope
 	* [Scope](https://poiemaweb.com/js-scope)
 	* [스코프와 클로저](https://medium.com/@khwsc1/%EB%B2%88%EC%97%AD-%EC%9E%90%EB%B0%94%EC%8A%A4%ED%81%AC%EB%A6%BD%ED%8A%B8-%EC%8A%A4%EC%BD%94%ED%94%84%EC%99%80-%ED%81%B4%EB%A1%9C%EC%A0%80-javascript-scope-and-closures-8d402c976d19)
-3. 참고
+3. Execution Context
+	* 스코프는 정의될 때 결정되고, 실행 컨텍스트는 실행될 때 생성된다
+	* 실행 컨텍스트에는 호이스팅, `this` 바인딩 등의 정보가 담긴다
+	* .
+	* 참고
+		* [Understanding Execution Context and Execution Stack in Javascript](https://blog.bitsrc.io/understanding-execution-context-and-execution-stack-in-javascript-1c9ea8642dd0)
+		* [JavaScript Internals: Execution Context](https://medium.com/better-programming/javascript-internals-execution-context-bdeee6986b3b)
+		* [실행 컨텍스트와 자바스크립트의 동작 원리](https://poiemaweb.com/js-execution-context)
+		* [Execution Context와 Lexical Environment](https://iamsjy17.github.io/javascript/2019/06/10/js33_execution_context.html)
+		* [Execution context와 Stack](https://smarttech.tistory.com/entry/Javascript-Execution-context%EC%99%80-Stack%EC%97%90-%EB%8C%80%ED%95%B4%EC%84%9C-%EC%A0%95%EB%A6%AC%ED%95%98%EC%9E%90)
+4. 참고
 	* [Javascript - 나를 위한 클로저 예제 분석](https://pewww.tistory.com/21)
 	* [비동기 프로그래밍](https://helloworldjavascript.net/pages/285-async.html)
 
