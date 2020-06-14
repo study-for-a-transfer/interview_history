@@ -688,6 +688,7 @@ ORDER BY b.DEPTNO ASC;
 ##### [목차로 이동](#목차)
 
 ## 기타
+* 게시판 만드는 데 얼마나 걸리는지?
 * [CI/CD란?](https://itholic.github.io/qa-cicd/)
 * .
 
