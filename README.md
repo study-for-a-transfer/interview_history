@@ -9,10 +9,11 @@
 	2. [setTimeout](#setTimeout)
 	3. [변수 할당](#변수-할당)
 	4. [this](#this)
-	5. [관례](#관례)
+	5. [콜백함수](#콜백함수)
+	6. [관례](#관례)
 		1. [전역 선언 방지](#전역-선언-방지)
 		2. [이벤트 처리](#이벤트-처리)
-	6. [--](#--)
+	7. [--](#--)
 3. [스프링](#스프링)
 4. [SQL](#SQL)
 	1. [Outer join](#Outer-join)
@@ -401,6 +402,15 @@ user.sayHi(); // 보라
 	* [화살표 함수 다시 살펴보기](https://ko.javascript.info/arrow-functions)
 	* [`EventTarget.addEventListener()`](https://developer.mozilla.org/ko/docs/Web/API/EventTarget/addEventListener)
 		* 핸들러 내부의 `this` 값 추후 정리!
+
+##### [목차로 이동](#목차)
+
+### 콜백함수
+> A callback function is a function passed into another function as an argument, which is then invoked inside the outer function to complete some kind of routine or action.
+
+이는 MDN에 나와있는 [콜백함수에 관한 정의](https://developer.mozilla.org/en-US/docs/Glossary/Callback_function)이다. 간단한 예시는 아래와 같다.
+
+<img src="./img/img_009.png" width="300" height="200"></br>
 
 ##### [목차로 이동](#목차)
 
