@@ -406,11 +406,34 @@ user.sayHi(); // 보라
 ##### [목차로 이동](#목차)
 
 ### 콜백함수
-> A callback function is a function passed into another function as an argument, which is then invoked inside the outer function to complete some kind of routine or action.
+> A callback function is a function passed into another function as an argument, which is then invoked inside the outer function[1] to complete some kind of routine or action.
 
 이는 MDN에 나와있는 [콜백함수에 관한 정의](https://developer.mozilla.org/en-US/docs/Glossary/Callback_function)이다. 간단한 예시는 아래와 같다.
 
 <img src="./img/img_009.png" width="300" height="200"></br>
+
+결과를 보면 알 수 있듯, 이는 동기적 콜백(a synchronous callback)의 예다. 하지만 종종 아래와 같은 예를 보게 된다.
+
+<img src="./img/img_010.png" width="350" height="300"></br>
+
+다시 말해 비동기적 콜백인데, 이것이 바로 콜백함수를 사용하는 이유이다. 즉 비동기적으로 처리하되, 특정 작업의 처리가 끝나는 시점에 콜백함수를 실행하기 위해서이다. 이러한 비동기적 콜백의 예로 특정 이벤트가 발생할 때마다 함수를 실행하고 싶은 경우[2] 혹은 ajax를 들 수 있다.
+
+
+- - -
+1. 콜백을 사용하는 목적은 제어역전을 위해서이다  
+(제어역전을 하는 이유는 특정 값에 대한 의존을 끊어 코드를 더 범용적으로 사용하기 위함이다)
+	* 반대로 내장 함수는 본인이 컨트롤 가능하다는 점에서 다르다
+2. 콜백 함수란 옵저버 패턴에서 나온 개념으로 객체의 상태 변화(이벤트)가 발생했을 경우 이를 전달하는 함수를 말한다  
+	```javascript
+	$("#myButton").on("click", function () {
+		// callback function
+	});
+	```
+3. 참고
+	* [자바스크립트 콜백함수란?](https://webcoding.tistory.com/entry/JavaScript-%EC%9E%90%EB%B0%94%EC%8A%A4%ED%81%AC%EB%A6%BD%ED%8A%B8-%EC%BD%9C%EB%B0%B1%ED%95%A8%EC%88%98%EB%9E%80)
+	* [비동기프로그래밍 - 콜백함수](https://beomy.tistory.com/10)
+	* [자바스크립트의 콜백함수 이해하기! _ v2](https://yubylab.tistory.com/entry/%EC%9E%90%EB%B0%94%EC%8A%A4%ED%81%AC%EB%A6%BD%ED%8A%B8%EC%9D%98-%EC%BD%9C%EB%B0%B1%ED%95%A8%EC%88%98-%EC%9D%B4%ED%95%B4%ED%95%98%EA%B8%B0)
+	* [함수형 프로그래밍, 콜백과 클로저](https://codeflow.study/courses/63)
 
 ##### [목차로 이동](#목차)
 
