@@ -608,7 +608,19 @@ return sb.toString();
 ##### [목차로 이동](#목차)
 
 ## 스프링
+공통적으로 신입 혹은 주니어가 받을만한 질문을 추가한다. 공통단, 횡단관심사 처리 등을 처리하는 방법에 대해 생각해볼 필요가 있다고 느낀다.
 
+1. Servlet과 Spring MVC Pattern의 차이
+2. Filter와 Interceptor의 차이
+	* https://doublesprogramming.tistory.com/133
+	* https://supawer0728.github.io/2018/04/04/spring-filter-interceptor/
+	* https://goddaehee.tistory.com/154
+3. Interceptor와 Spring Security의 차이
+	* https://soon-devblog.tistory.com/4
+	* https://okky.kr/article/316188
+4. AOP
+5. SEO
+	* https://seonghui.github.io/TIL/docs/etc/seo.html
 
 ##### [목차로 이동](#목차)
 
