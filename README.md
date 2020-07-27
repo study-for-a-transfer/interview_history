@@ -615,11 +615,14 @@ return sb.toString();
 	* https://doublesprogramming.tistory.com/133
 	* https://supawer0728.github.io/2018/04/04/spring-filter-interceptor/
 	* https://goddaehee.tistory.com/154
+	* Interceptor
+		* Interceptor는 Bean, 따라서 DI 가능
+		* View 호출 전, 작업 가능
 3. Interceptor와 Spring Security의 차이
 	* https://soon-devblog.tistory.com/4
 	* https://okky.kr/article/316188
 4. AOP
-5. SEO
+5. SEO, GNB/SNB
 	* https://seonghui.github.io/TIL/docs/etc/seo.html
 
 ##### [목차로 이동](#목차)
