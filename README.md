@@ -20,6 +20,7 @@
 	2. [--](#--)
 5. [알고리즘](#알고리즘)
 6. [기타](#기타)
+	1. [Git](docs/git.md)
 
 ## 자바
 https://velog.io/@jakeseo_me/Algorithm-Study-With-Java-3-JAVA-SORT
@@ -749,5 +750,9 @@ ORDER BY b.DEPTNO ASC;
 		  1. 렌더링 시 모든 데이터를 불러오는 게 아니라, 새로운 채팅 메세지가 있을 때 추가
 		```
 	3. .
+* 도움이 될만한 영상
+	1. [문법은 아는데 어떻게 프로그램을 만들지 막막해요](https://www.youtube.com/watch?v=gXRYpsPVVro)
+	2. [고급 개발자가 갖춰야 할 두 가지 역량](https://www.youtube.com/watch?v=enPTL-FA0_I)
+	3. [서버와 연동하는 프로그램 개발 가이드](https://www.youtube.com/watch?v=ttTvTB00p9M&t=173s)
 
 ##### [목차로 이동](#목차)
