@@ -21,6 +21,8 @@
 5. [알고리즘](#알고리즘)
 6. [기타](#기타)
 	1. [Git](docs/git.md)
+	2. [Linux](docs/linux.md)
+	3. [etc](#etc)
 
 ## 자바
 https://velog.io/@jakeseo_me/Algorithm-Study-With-Java-3-JAVA-SORT
@@ -737,6 +739,7 @@ ORDER BY b.DEPTNO ASC;
 ##### [목차로 이동](#목차)
 
 ## 기타
+### etc
 * [CI/CD란?](https://itholic.github.io/qa-cicd/)
 * 구현
 	1. 게시판 만드는 데 얼마나 걸리는지?
