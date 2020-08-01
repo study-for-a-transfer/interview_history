@@ -10,6 +10,8 @@ Git
 3. [git add](#git-add)
 4. [git commit](#git-commit)
 5. [git unstage](#git-unstage)
+6. [기타](#기타)
+	1. [git의 객체](#git의-객체)
 
 ## 개요
 > Git에서 파일을 스테이지에 올리고 커밋을 하나 만들면 내부적으로 어떤 일이 일어나는지 살펴보려고 합니다. 개인적으로 굉장히 흥미로왔던 내용이라 다 함께 공유하고 싶습니다.
@@ -60,8 +62,8 @@ Git
 
 답은 X다. 아래 두 가지를 구분할 필요가 있다.
 
-1. 작업 폴더
-2. Local directory
+1. Working directory(작업 폴더)
+2. Local repository
 
 작업 폴더, 즉 working tree는 개발자 입장에서의 작업 공간이다. git의 입장에서 이는 일종의 샌드박스(참고: [보안](https://namu.wiki/w/%EC%83%8C%EB%93%9C%EB%B0%95%EC%8A%A4#s-5))다. 그렇다면 git 입장에서의 local directory는 어디일까? 이는 `.git` 폴더다. 따라서 압축된 `.git` 파일을 풀면 `git init` 명령어와 같은 효과를 낼 수 있다. 곧 다루겠지만 local directory는 stage 준비 공간이다.
 
@@ -72,8 +74,27 @@ Git
 ##### [목차로 이동](#목차)
 
 ## git add
+파일 객체가 로컬 저장소(`.git`)에 저장되는, 즉 스테이지(Stage)에 파일이 추가되는 시점이다. 이때 스테이지란 실제 존재하지 않는[1] 논리 저장 공간으로 일종의 컬렉션, 구체적으로는 해쉬맵에 가깝다. 이곳에서는 파일들을 묶어서 준비했다가 한꺼번에 커밋[2]한다. 아래 그림을 참고하자(출처를 잘 모르겠는데..).
+
+<img src="../img/git_004.png" width="550" height="400"></br>
+
+즉 위 그림에서 git의 관리대상이 아닌 Untracked에서 git의 관리대상인 Tracked 상태로 변경시켜주는 것이 바로 `git add` 명령이다. 한편 Staged 상태에는 두 가지가 있다.
+
+1. Unmodified(신)
+2. Modified(구)
 
 
+
+- - -
+1. 사실 stage의 정보를 담고 있는 파일은 index다
+2. Working directory → Staging area → Local repository
+	1. `git add`
+		* Working directory → Staging area
+		* 파일을 선택해서 추가하는 것이 가능
+	2. `git commit`
+		* Staging area → Local repository
+		* Staging area에 있는 것을 한꺼번에 커밋(선택 불가)
+3. .
 
 ##### [목차로 이동](#목차)
 
@@ -86,5 +107,20 @@ Git
 ## git unstage
 
 
+
+##### [목차로 이동](#목차)
+
+## 기타
+### git의 객체
+1. blob
+	* 파일은 blob(binary large object)이 된다
+2. commit
+	* 저장 단위, tree + blob + 메타정보
+3. tree
+	* blob을 묶어서 관리(디렉토리 구조와 유사)
+4. tag
+	* 커밋에 대한 참조이지만 설명(annotation)이 추가되는 객체
+
+이 외에는 객체가 아니다. 브랜치의 경우 커밋에 대한 참조일 뿐이다.
 
 ##### [목차로 이동](#목차)
