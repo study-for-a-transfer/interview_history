@@ -113,7 +113,7 @@ Git
 
 ## 기타
 ### git의 객체
-git은 `blob`, `commit`, `tree`, `tag`, 총4개의 object로 관리된다(cf. 브랜치의 경우 커밋에 대한 참조일 뿐). 이들은 .git/objects에 위치한다. 시나리오를 생각해보자.
+git은 `blob`, `commit`, `tree`, `tag`, 총4개의 object로 관리된다(cf. 브랜치의 경우 커밋에 대한 참조일 뿐). 이들은 `.git/objects`에 위치한다. 시나리오를 생각해보자.
 
 1. 작업 디렉토리에서 `git init` 후 `a.txt`를 만든다
 	* `a.txt`에는 `안녕 나는 공부중이야`를 적었다
@@ -126,7 +126,7 @@ git은 `blob`, `commit`, `tree`, `tag`, 총4개의 object로 관리된다(cf. �
 		<img src="../img/git_007.png" width="400" height="30"></br>
 		* `blob`을 묶어서 관리하며, 디렉토리 구조와 유사하다
 	2. 또한 `commit`도 생성되며, tree객체명/부모commit객체명/author/committer/message가 들어있다
-		* 저장 단위, tree + blob + 메타정보
+		* 저장 단위, tree + blob + 메타정보  
 		<img src="../img/git_008.png" width="400" height="50"></br>
 4. 이후 `git tag` 한다
 	* 이때 `tag`가 생성되며 commit객체명/tag이름/tagger/message가 기록된다
