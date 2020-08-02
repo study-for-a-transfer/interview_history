@@ -87,7 +87,7 @@ Git
 
 - - -
 1. 사실 stage의 정보를 담고 있는 파일은 index다  
-	<img src="../img/git_005.png" width="450" height="500"></br>
+	<img src="../img/git_005.png" width="350" height="400"></br>
 2. Working directory → Staging area → Local repository
 	1. `git add`
 		* Working directory → Staging area
@@ -125,18 +125,13 @@ git은 `blob`, `commit`, `tree`, `tag`, 총4개의 object로 관리된다(cf. �
 		* 객체명은 SHA1로 40자리로 해쉬되므로 내용이 같으면 객체명 또한 같다
 		<img src="../img/git_007.png" width="400" height="30"></br>
 		* `blob`을 묶어서 관리하며, 디렉토리 구조와 유사하다
-	2. .
-
-1. blob
-	* 파일은 blob이 된다
-2. commit
-	* 저장 단위, tree + blob + 메타정보
-3. tree
-	* blob을 묶어서 관리(디렉토리 구조와 유사)
-4. tag
+	2. 또한 `commit`도 생성되며, tree객체명/부모commit객체명/author/committer/message가 들어있다
+		* 저장 단위, tree + blob + 메타정보
+		<img src="../img/git_008.png" width="400" height="50"></br>
+4. 이후 `git tag` 한다
+	* 이때 `tag`가 생성되며 commit객체명/tag이름/tagger/message가 기록된다
+	<img src="../img/git_009.png" width="400" height="50"></br>
 	* 커밋에 대한 참조이지만 설명(annotation)이 추가되는 객체
-
-
 
 - - -
 1. `git cat -file -p 객체명`: 객체의 내용을 보기 위한 명령어
