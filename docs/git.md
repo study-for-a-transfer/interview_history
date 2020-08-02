@@ -86,7 +86,8 @@ Git
 
 
 - - -
-1. 사실 stage의 정보를 담고 있는 파일은 index다
+1. 사실 stage의 정보를 담고 있는 파일은 index다  
+	<img src="../img/git_005.png" width="450" height="500"></br>
 2. Working directory → Staging area → Local repository
 	1. `git add`
 		* Working directory → Staging area
@@ -112,8 +113,22 @@ Git
 
 ## 기타
 ### git의 객체
+git은 `blob`, `commit`, `tree`, `tag`, 총4개의 object로 관리된다(cf. 브랜치의 경우 커밋에 대한 참조일 뿐). 이들은 .git/objects에 위치한다. 시나리오를 생각해보자.
+
+1. 작업 디렉토리에서 `git init` 후 `a.txt`를 만든다
+	* `a.txt`에는 `안녕 나는 공부중이야`를 적었다
+2. 그 후 `git add` 한다
+	* 이때 `blob(binary large object)`이 생성되며 여기에는 파일 내용이 들어있다[1]
+	<img src="../img/git_006.png" width="400" height="30"></br>
+3. 이후 `git commit` 한다
+	1. 이때 `tree`가 생성되며 타입/객체명/파일명이 기록된다
+		* 객체명은 SHA1로 40자리로 해쉬되므로 내용이 같으면 객체명 또한 같다
+		<img src="../img/git_007.png" width="400" height="30"></br>
+		* `blob`을 묶어서 관리하며, 디렉토리 구조와 유사하다
+	2. .
+
 1. blob
-	* 파일은 blob(binary large object)이 된다
+	* 파일은 blob이 된다
 2. commit
 	* 저장 단위, tree + blob + 메타정보
 3. tree
@@ -121,9 +136,12 @@ Git
 4. tag
 	* 커밋에 대한 참조이지만 설명(annotation)이 추가되는 객체
 
-이 외에는 객체가 아니다. 브랜치의 경우 커밋에 대한 참조(변수)일 뿐이다.
+
 
 - - -
-* https://storycompiler.tistory.com/7
+1. `git cat -file -p 객체명`: 객체의 내용을 보기 위한 명령어
+2. 참고
+	* https://storycompiler.tistory.com/7
+	* https://sjh836.tistory.com/74
 
 ##### [목차로 이동](#목차)
