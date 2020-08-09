@@ -22,7 +22,8 @@
 6. [기타](#기타)
 	1. [Git](docs/git.md)
 	2. [Linux](docs/linux.md)
-	3. [etc](#etc)
+	3. [Eclipse](#Eclipse)
+	4. [etc](#etc)
 
 ## 자바
 https://velog.io/@jakeseo_me/Algorithm-Study-With-Java-3-JAVA-SORT
@@ -611,22 +612,51 @@ return sb.toString();
 ##### [목차로 이동](#목차)
 
 ## 스프링
-공통적으로 신입 혹은 주니어가 받을만한 질문을 추가한다. 공통단, 횡단관심사 처리 등을 처리하는 방법에 대해 생각해볼 필요가 있다고 느낀다.
+기초적인 질문일 수 있지만, 공통적으로 신입 혹은 주니어가 받을만한 질문을 추가하고 답변을 기록한다(답변 내용은 수정·보완할 예정이다).
 
-1. Servlet과 Spring MVC Pattern의 차이
+1. Servlet과 Spring MVC의 차이
+	1. Servlet
+		* `Servlet`은 서블릿 프로그램을 개발할 때 반드시 구현해야 하는 메서드를 선언하고 있는 인터페이스로, 이 표준을 구현해야 `Servlet Container`가 서블릿을 실행할 수 있다.
+		* `Servlet Container`는 웹애플리케이션 서버 중에서 HTTP 요청을 받아 처리하는 기초 역할을 맡고 있다.
+			* 우리가 알고 있는 대표적인 `Servlet Container`가 `Tomcat`이다.
+			* `Servlet Container`는 `Servlet`의 생성부터 소멸까지 Life Cycle을 관리하며, 요청이 들어올 때마다 새로운 자바 스레드를 만든다.
+		* 대부분의 웹프레임워크가 제공하는 기능은 서블릿 컨테이너 위에서 동작하는 서블릿, 필터, 이벤트 리스너 등을 적절하게 구현한 것이다.
+	2. Spring MVC  
+		<img src="./img/img_011.png" width="400" height="300"></br>
+		* `Spring's Web MVC framework` is request-driven and designed based on a `central Servlet` that dispatches requests to controllers and invokes other functionality that facilitates the development of web applications.
+		* The `DispatcherServlet` is an actual Servlet and inherits from the `HttpServlet` base class.
+			* `DispatcherServlet`은 `servlet-context.xml`을 로딩한다.
+		* `Spring MVC`는 `Java EE`의 `Servlet` 스펙에 기반해 만들어졌고, 이는 본질적으로 `Blocking`이며 `Synchronous`이다.
 2. Filter와 Interceptor의 차이
-	* https://doublesprogramming.tistory.com/133
-	* https://supawer0728.github.io/2018/04/04/spring-filter-interceptor/
-	* https://goddaehee.tistory.com/154
-	* Interceptor
-		* Interceptor는 Bean, 따라서 DI 가능
-		* View 호출 전, 작업 가능
+	1. Filter
+		* .
+	2. Interceptor  
+		<img src="./img/img_012.png" width="700" height="220"></br>
+		* implement `org.springframework.web.servlet.HandlerInterceptor`
+		* `Spring Interceptor` is only applied to requests that are sending to a `Controller`.
 3. Interceptor와 Spring Security의 차이
 	* https://soon-devblog.tistory.com/4
 	* https://okky.kr/article/316188
 4. AOP
 5. SEO, GNB/SNB
 	* https://seonghui.github.io/TIL/docs/etc/seo.html
+6. .
+
+- - -
+* 참고
+	* Tutorial
+		* [Spring MVC Interceptor Tutorial](https://examples.javacodegeeks.com/enterprise-java/spring/mvc/spring-mvc-interceptor-tutorial/)
+		* [Java Servlet Filter Tutorial](https://o7planning.org/en/10395/java-servlet-filter-tutorial)
+		* [Spring MVC Interceptors Tutorial](https://o7planning.org/en/11229/spring-mvc-interceptors-tutorial)→ 외에도 좋은 게시글 다수
+	* [What is the difference between servlet container and spring container?](https://stackoverflow.com/questions/28040529/what-is-the-difference-between-servlet-container-and-spring-container)
+	* Filter vs Interceptor
+		* [Spring HandlerInterceptoer vs Servlet Filters](https://stackoverflow.com/questions/8000844/spring-handlerinterceptor-vs-servlet-filters)
+		* [Filter와 Interceptor의 차이](https://supawer0728.github.io/2018/04/04/spring-filter-interceptor/)
+	* .
+	* [Spring MVC Framework란](https://gmlwjd9405.github.io/2018/12/20/spring-mvc-framework.html)
+	* 더 나아가기
+		* [Spring WebFlux](https://kimyhcj.tistory.com/343)
+		* [WebFlux로 Reactive Service Bean 구성하기](http://wiki.sys4u.co.kr/pages/viewpage.action?pageId=8552586)
 
 ##### [목차로 이동](#목차)
 
@@ -739,6 +769,12 @@ ORDER BY b.DEPTNO ASC;
 ##### [목차로 이동](#목차)
 
 ## 기타
+### Eclipse
+
+
+
+##### [목차로 이동](#목차)
+
 ### etc
 * [CI/CD란?](https://itholic.github.io/qa-cicd/)
 * 구현
