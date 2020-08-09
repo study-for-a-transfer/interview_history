@@ -629,10 +629,11 @@ return sb.toString();
 		* `Spring MVC`는 `Java EE`의 `Servlet` 스펙에 기반해 만들어졌고, 이는 본질적으로 `Blocking`이며 `Synchronous`이다.
 2. Filter와 Interceptor의 차이
 	1. Filter
+		* implements `javax.servlet.Filter`
 		* .
 	2. Interceptor  
-		<img src="./img/img_012.png" width="700" height="180"></br>
-		* implement `org.springframework.web.servlet.HandlerInterceptor`
+		<img src="./img/img_012.png" width="700" height="170"></br>
+		* implements `org.springframework.web.servlet.HandlerInterceptor`
 		* `Spring Interceptor` is only applied to requests that are sending to a `Controller`.
 3. Interceptor와 Spring Security의 차이
 	* https://soon-devblog.tistory.com/4
