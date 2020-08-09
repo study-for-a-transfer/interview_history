@@ -639,9 +639,10 @@ return sb.toString();
 	* https://soon-devblog.tistory.com/4
 	* https://okky.kr/article/316188
 4. AOP
-5. SEO, GNB/SNB
+5. SEO/GNB/SNB
 	* https://seonghui.github.io/TIL/docs/etc/seo.html
-6. .
+6. JSP → Controller → Service(Logic/Pattern) → DB
+7. .
 
 - - -
 * 참고
