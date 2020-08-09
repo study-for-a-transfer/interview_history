@@ -622,7 +622,7 @@ return sb.toString();
 			* `Servlet Container`는 `Servlet`의 생성부터 소멸까지 Life Cycle을 관리하며, 요청이 들어올 때마다 새로운 자바 스레드를 만든다.
 		* 대부분의 웹프레임워크가 제공하는 기능은 서블릿 컨테이너 위에서 동작하는 서블릿, 필터, 이벤트 리스너 등을 적절하게 구현한 것이다.
 	2. Spring MVC  
-		<img src="./img/img_011.png" width="400" height="300"></br>
+		<img src="./img/img_011.png" width="450" height="340"></br>
 		* `Spring's Web MVC framework` is request-driven and designed based on a `central Servlet` that dispatches requests to controllers and invokes other functionality that facilitates the development of web applications.
 		* The `DispatcherServlet` is an actual Servlet and inherits from the `HttpServlet` base class.
 			* `DispatcherServlet`은 `servlet-context.xml`을 로딩한다.
@@ -647,7 +647,7 @@ return sb.toString();
 	* Tutorial
 		* [Spring MVC Interceptor Tutorial](https://examples.javacodegeeks.com/enterprise-java/spring/mvc/spring-mvc-interceptor-tutorial/)
 		* [Java Servlet Filter Tutorial](https://o7planning.org/en/10395/java-servlet-filter-tutorial)
-		* [Spring MVC Interceptors Tutorial](https://o7planning.org/en/11229/spring-mvc-interceptors-tutorial)→ 외에도 좋은 게시글 다수
+		* [Spring MVC Interceptors Tutorial](https://o7planning.org/en/11229/spring-mvc-interceptors-tutorial) → 외에도 좋은 게시글 다수
 	* [What is the difference between servlet container and spring container?](https://stackoverflow.com/questions/28040529/what-is-the-difference-between-servlet-container-and-spring-container)
 	* Filter vs Interceptor
 		* [Spring HandlerInterceptoer vs Servlet Filters](https://stackoverflow.com/questions/8000844/spring-handlerinterceptor-vs-servlet-filters)
