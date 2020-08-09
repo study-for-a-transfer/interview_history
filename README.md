@@ -631,7 +631,7 @@ return sb.toString();
 	1. Filter
 		* .
 	2. Interceptor  
-		<img src="./img/img_012.png" width="700" height="220"></br>
+		<img src="./img/img_012.png" width="700" height="180"></br>
 		* implement `org.springframework.web.servlet.HandlerInterceptor`
 		* `Spring Interceptor` is only applied to requests that are sending to a `Controller`.
 3. Interceptor와 Spring Security의 차이
